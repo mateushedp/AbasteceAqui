@@ -11,9 +11,9 @@ app.use(routes);
 
 mongoose
 .connect(process.env.DB_CONN)
-.then(result => {
-    app.listen(3001, () => {
-        console.log("Ouvindo na 3001");
+.then(() => {
+    app.listen(process.env.PORT, () => {
+        console.log("Ouvindo na " + process.env.PORT);
       })
 })
 .catch(error => {
