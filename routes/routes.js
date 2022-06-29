@@ -7,6 +7,7 @@ router
   .post('/saveClient', clientController.saveClient)
   .put('/updateClient/:id', clientController.updateClient)
   .delete('/deleteClient/:id', clientController.deleteClient)
+  .put('/addCredit/:id', clientController.addCredit)
 
   
 

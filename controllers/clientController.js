@@ -14,7 +14,7 @@ exports.getClients = async (req, res) => {
 exports.getClient = async (req, res) => {
     const {id} = req.params;
     try {
-        const client = await Client.findById(id);
+        const client = await Client.findById({_id: id});
         res.json(client);
     } catch (error){
         console.log(error);
@@ -27,7 +27,8 @@ exports.saveClient = async (req, res) => {
     const newClient = new Client({
         name: client.name,
         phone: client.phone,
-        email: client.email
+        email: client.email,
+        credit: 0,
     });
 
     try {
@@ -44,7 +45,7 @@ exports.updateClient = async (req, res) => {
     const {id} = req.params;
     const client = req.body;
     try {
-        await Client.findOneAndUpdate(id, client);
+        await Client.findOneAndUpdate({_id: id}, client);
         res.json("Editado com sucesso!");
     } catch (error){
         console.log(error);
@@ -55,10 +56,22 @@ exports.updateClient = async (req, res) => {
 exports.deleteClient = async (req, res) => {
     const {id} = req.params;
     try {
-        await Client.findOneAndDelete(id);
+        await Client.findOneAndDelete({_id: id});
         res.json("Removido com sucesso!");
     } catch (error){
         console.log(error);
         res.json("Erro ao remover!");
+    }
+}
+
+exports.addCredit = async (req, res) => {
+    const {id} = req.params;
+    const {credit} = req.body;
+    try {
+        await Client.findOneAndUpdate({_id: id}, {credit: credit});
+        res.json("Editado com sucesso!");
+    } catch (error){
+        console.log(error);
+        res.json("Erro ao editar!");
     }
 }
