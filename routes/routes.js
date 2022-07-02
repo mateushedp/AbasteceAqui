@@ -18,7 +18,7 @@ router
 
   //Sale routes
   .get('/getSale/:id', saleController.getSale)
+  .get('/getAllSalesFromClient/:clientId', saleController.getAllSalesFromClient)
   .post('/saveSale', saleController.saveSale)
-  
 
 module.exports = router;

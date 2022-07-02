@@ -1,10 +1,6 @@
 const Sale = require("../models/Sale");
 const Client = require("../models/Client");
 
-//@TODO
-//getAllSalesFromClient(clientId)
-//
-
 
 //Essa função recebe um valor a ser subtraído e o id do cliente a ser removido
 //Caso o cliente não possua saldo suficiente, irá retornar false;
@@ -26,6 +22,7 @@ exports.saveSale = async (req, res) => {
     const sale = new Sale({
         client: clientId,
         station: stationId,
+        value: value
     });
 
     const isSubtracted = await subtractFromClientCredit(value, clientId);
@@ -50,6 +47,19 @@ exports.getSale = async(req, res) => {
         .findById({_id: id})
         .populate('client station');
         res.json(sale);
+    } catch (error){
+        console.log(error);
+        res.json("Erro ao buscar!");
+    }
+}
+
+exports.getAllSalesFromClient = async (req, res) => {
+    const {clientId} = req.params;
+    try {
+        const sales = await Sale
+        .find({client: clientId})
+        .populate('client station');
+        res.json(sales);
     } catch (error){
         console.log(error);
         res.json("Erro ao buscar!");
