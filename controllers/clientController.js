@@ -68,7 +68,9 @@ exports.addCredit = async (req, res) => {
     const {id} = req.params;
     const {credit} = req.body;
     try {
-        await Client.findOneAndUpdate({_id: id}, {credit: credit});
+        const client = await Client.findOne({_id: id});
+        client.credit += credit;
+        await client.save();
         res.json("Editado com sucesso!");
     } catch (error){
         console.log(error);
