@@ -29,8 +29,8 @@ exports.saveSale = async (req, res) => {
 
     if(isSubtracted){
         try {
-            await sale.save();
-            res.json("Compra efetuada com sucesso!");
+            const result = await sale.save();
+            res.json(result);
         } catch (error){
             console.log(error);
             res.json("Erro ao salvar!");
