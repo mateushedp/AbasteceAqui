@@ -75,6 +75,7 @@ describe('Client test', () => {
 
     afterAll(async () => {
         await Client.deleteMany();
+        await Station.deleteMany();
         await Sale.deleteMany();
         mongoose.connection.close()
     })
