@@ -4,10 +4,7 @@ const stationController = require('../controllers/stationController');
 const saleController = require("../controllers/saleController");
 
 router
-  //Test route
-  .get('/test', async (req, res) => {
-    res.json({message: "Okay"});
-  })
+
   //Client routes
   .get('/getClients', clientController.getClients)
   .get('/getClient/:id', clientController.getClient)

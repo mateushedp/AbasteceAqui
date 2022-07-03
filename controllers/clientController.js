@@ -32,8 +32,7 @@ exports.saveClient = async (req, res) => {
     });
 
     try {
-        const result = await newClient.save();
-        console.log(result);
+        await newClient.save();
         res.json("Salvo com sucesso!")
     } catch (error){
         console.log(error);
