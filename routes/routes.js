@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const clientController = require('../controllers/clientController');
 const stationController = require('../controllers/stationController');
-const saleController = require("../controllers/saleController");
+const saleController = require('../controllers/saleController');
 
 router
 
@@ -20,6 +20,6 @@ router
   //Sale routes
   .get('/getSale/:id', saleController.getSale)
   .get('/getAllSalesFromClient/:clientId', saleController.getAllSalesFromClient)
-  .post('/saveSale', saleController.saveSale)
+  .post('/saveSale', saleController.saveSale);
 
 module.exports = router;
