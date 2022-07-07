@@ -1,5 +1,6 @@
 const Sale = require('../models/Sale');
 const Client = require('../models/Client');
+const Station = require('../models/Station');
 
 //Essa função recebe um valor a ser subtraído e o id do cliente a ser removido
 //Caso o cliente não possua saldo suficiente, irá retornar false;
@@ -14,13 +15,26 @@ const subtractFromClientCredit = async (value, clientId) => {
   }
 };
 
+const setDiscount = (discount, value) => {
+  let returnValue = value - value * (discount / 100);
+  return returnValue;
+};
+
 exports.saveSale = async (req, res) => {
-  const { clientId, stationId, value } = req.body;
+  let { clientId, stationId, value, attendantId, rating } = req.body;
+
+  const station = await Station.findById({ _id: stationId });
+
+  if (station.discount) {
+    value = setDiscount(station.discount, value);
+  }
 
   const sale = new Sale({
     client: clientId,
     station: stationId,
     value: value,
+    attendant: attendantId,
+    rating: rating,
   });
 
   const isSubtracted = await subtractFromClientCredit(value, clientId);
@@ -41,7 +55,9 @@ exports.saveSale = async (req, res) => {
 exports.getSale = async (req, res) => {
   const { id } = req.params;
   try {
-    const sale = await Sale.findById({ _id: id }).populate('client station');
+    const sale = await Sale.findById({ _id: id }).populate(
+      'client station attendant'
+    );
     res.json(sale);
   } catch (error) {
     console.log(error);
@@ -61,3 +77,6 @@ exports.getAllSalesFromClient = async (req, res) => {
     res.json('Erro ao buscar!');
   }
 };
+
+module.exports.subtractFromClientCredit = subtractFromClientCredit;
+module.exports.setDiscount = setDiscount;

@@ -15,6 +15,7 @@ exports.saveStation = async (req, res) => {
   const newStation = new Station({
     name: station.name,
     cnpj: station.cnpj,
+    discount: station.discount ?? null,
   });
 
   try {

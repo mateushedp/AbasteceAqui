@@ -65,10 +65,25 @@ describe('Client test', () => {
     expect(sales.length).toBe(2);
   });
 
-  // it('should subtract credit from a client', async () => {
-  //     console.log(controller);
+  it('should subtract credit from a client', async () => {
+    await controller.subtractFromClientCredit(100, clientId);
+    const client = await Client.findOne({ _id: clientId });
 
-  // });
+    expect(client.credit).toBe(750);
+  });
+
+  it('should not subtract credit from a client', async () => {
+    const result = await controller.subtractFromClientCredit(800, clientId);
+    const client = await Client.findOne({ _id: clientId });
+
+    expect(client.credit).toBe(750);
+    expect(result).toBeFalsy();
+  });
+
+  it('should apply a discount to the sale', async () => {
+    const discounted = controller.setDiscount(10, 200);
+    expect(discounted).toBe(180);
+  });
 
   afterAll(async () => {
     await Client.deleteMany();
